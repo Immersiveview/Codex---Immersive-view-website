@@ -1,5 +1,8 @@
+"use client";
+
 import { BedDouble, Building2, Dumbbell, Landmark, UtensilsCrossed } from "lucide-react";
 import ServiceCard from "./ServiceCard";
+import { useReveal } from "@/hooks/useReveal";
 
 const services = [
   {
@@ -35,12 +38,17 @@ const services = [
 ];
 
 export default function Services() {
+  const revealRef = useReveal();
   return (
-    <section id="leistungen" className="py-24 bg-white">
+    <section id="leistungen" ref={revealRef} className="reveal py-24 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Unsere Leistungen</h2>
-          <p className="text-xl text-gray-600">Maßgeschneiderte 360°-Lösungen für Ihre Branche</p>
+          <h2 className="text-4xl font-semibold text-neutral-900 tracking-tight text-center mb-4">
+            Unsere Leistungen – 360°-Touren & virtuelle Rundgänge
+          </h2>
+          <p className="text-lg text-neutral-600 max-w-2xl mx-auto text-center mb-12">
+            Professionelle Lösungen für Immobilien, Hotels, Fitnessstudios, Eventlocations und Restaurants
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -52,4 +60,3 @@ export default function Services() {
     </section>
   );
 }
-

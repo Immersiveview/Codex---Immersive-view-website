@@ -1,6 +1,9 @@
+"use client";
+
 import { Clock3, Eye, MonitorSmartphone, PiggyBank, Sparkles, TrendingUp } from "lucide-react";
 import SectionTitle from "./SectionTitle";
 import BenefitsGrid from "./BenefitsGrid";
+import { useReveal } from "@/hooks/useReveal";
 
 const benefits = [
   {
@@ -36,12 +39,13 @@ const benefits = [
 ];
 
 export default function Benefits() {
+  const revealRef = useReveal();
   return (
-    <section id="vorteile" className="section-padding">
+    <section id="vorteile" ref={revealRef} className="reveal section-padding">
       <SectionTitle
         eyebrow="Vorteile"
-        title="Ihre Vorteile"
-        subtitle="Warum 360°-Touren Ihr Business voranbringen"
+        title="Ihre Vorteile – Warum 360°-Touren Ihr Business voranbringen"
+        subtitle="Mehr Sichtbarkeit, Vertrauen und Anfragen dank immersiver Rundgänge."
       />
       <BenefitsGrid items={benefits} />
     </section>

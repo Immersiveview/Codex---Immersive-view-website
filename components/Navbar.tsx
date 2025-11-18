@@ -1,82 +1,74 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-
-const navLinks = [
-  { href: "#leistungen", label: "Leistungen" },
-  { href: "#beispiele", label: "Beispiele" },
-  { href: "#vorteile", label: "Vorteile" }
-];
+import { useState } from "react";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const logoSrc = "/logo-black.svg";
-  const textColorClass = "text-black";
-  const secondaryTextColor = "text-neutral-700";
-  const ctaClass = "border-black text-black hover:bg-black hover:text-white";
+  const navLinks = [
+    { href: "/#leistungen", label: "LEISTUNGEN" },
+    { href: "/#beispiele", label: "BEISPIELE" },
+    { href: "/#vorteile", label: "VORTEILE" }
+  ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg shadow-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <nav className="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="#hero" className="flex items-center">
-          <img src={logoSrc} alt="Immersive View Logo" className="h-12 w-auto sm:h-14 md:h-16" />
+          <img src="/logo-black.svg" alt="Immersive View Logo" className="h-12 w-auto" />
         </Link>
 
-        <nav
-          className={`hidden items-center gap-8 text-sm font-medium uppercase tracking-[0.2em] ${secondaryTextColor} lg:flex`}
-        >
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex items-center gap-10 text-sm font-medium">
           {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="transition hover:text-black"
-            >
+            <a key={link.href} href={link.href} className="text-neutral-600 hover:text-black transition">
               {link.label}
-            </Link>
+            </a>
           ))}
-          <a href="#kontakt" className={`rounded-full border px-5 py-2 transition ${ctaClass}`}>
-            Beratung anfragen
+          <a
+            href="/#kontakt"
+            className="rounded-full border border-black px-5 py-2 hover:bg-black hover:text-white transition text-sm font-medium"
+          >
+            BERATUNG ANFRAGEN
           </a>
-        </nav>
+        </div>
 
+        {/* Mobile Toggle */}
         <button
-          className={`lg:hidden ${textColorClass}`}
+          className="lg:hidden flex flex-col gap-1 p-2 z-50"
+          onClick={() => setOpen((prev) => !prev)}
           aria-label="Navigation öffnen"
-          onClick={() => setIsOpen((prev) => !prev)}
         >
-          <span
-            className={`block h-0.5 w-8 rounded-full bg-current transition ${
-              isOpen ? "translate-y-1.5 rotate-45" : ""
-            }`}
-          ></span>
-          <span
-            className={`mt-1 block h-0.5 w-8 rounded-full bg-current transition ${
-              isOpen ? "-translate-y-1.5 -rotate-45" : ""
-            }`}
-          ></span>
+          <span className={`h-0.5 w-7 bg-black transition ${open ? "rotate-45 translate-y-1.5" : ""}`} />
+          <span className={`h-0.5 w-7 bg-black transition ${open ? "-rotate-45 -translate-y-1.5" : ""}`} />
         </button>
       </div>
 
-      {isOpen && (
-        <div className="lg:hidden">
-          <div className="space-y-6 border-t border-neutral-200 bg-white px-6 py-6 text-base font-semibold text-neutral-800">
+      {open && (
+        <div className="lg:hidden fixed top-[72px] left-0 w-full bg-white shadow-xl border-t border-neutral-200 z-40">
+          <nav className="flex flex-col px-6 py-6 gap-6 text-lg font-medium">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setIsOpen(false)}>
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="text-neutral-800 py-2"
+              >
                 {link.label}
-              </Link>
+              </a>
             ))}
             <a
-              href="#kontakt"
-              className="block rounded-full border border-black px-5 py-3 text-center"
-              onClick={() => setIsOpen(false)}
+              href="/#kontakt"
+              onClick={() => setOpen(false)}
+              className="text-neutral-800 border border-black rounded-full px-5 py-3 text-center font-medium"
             >
-              Beratung anfragen
+              BERATUNG ANFRAGEN
             </a>
-          </div>
+          </nav>
         </div>
       )}
     </nav>
   );
 }
+

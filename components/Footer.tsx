@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
 
@@ -9,7 +10,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">
           {/* Branding */}
           <div className="space-y-4">
-            <img src="/logo-white.svg" alt="Immersive View Logo" className="h-28 w-auto sm:h-36 md:h-40" />
+            <Image
+              src="/logo-white.svg"
+              alt="Immersive View Logo – virtuelle Touren"
+              width={320}
+              height={120}
+              className="h-28 w-auto sm:h-36 md:h-40"
+            />
           </div>
 
           {/* Contact */}

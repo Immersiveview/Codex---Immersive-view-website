@@ -24,7 +24,7 @@ export default function KuulaEmbed() {
             <iframe
               className="w-full h-[640px]"
               loading="lazy"
-              decoding="async"
+
               frameBorder="0"
               allow="xr-spatial-tracking; gyroscope; accelerometer"
               allowFullScreen
@@ -43,7 +43,7 @@ export default function KuulaEmbed() {
             <iframe
               className="w-full h-[640px]"
               loading="lazy"
-              decoding="async"
+
               frameBorder="0"
               allow="xr-spatial-tracking; gyroscope; accelerometer"
               allowFullScreen

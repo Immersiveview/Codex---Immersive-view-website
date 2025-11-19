@@ -23,7 +23,7 @@ export default function Hero() {
         playsInline
         preload="none"
         poster="/images/hero-poster.jpg"
-        decoding="async"
+
         style={{
           transform: `translateY(${offset}px)`,
           transition: "transform 0.05s linear"

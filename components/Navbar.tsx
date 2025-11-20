@@ -1,10 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { href: "/#leistungen", label: "LEISTUNGEN" },
@@ -13,22 +27,40 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-sm py-2" : "bg-transparent py-6"
+        }`}
+    >
+      <div className="w-full flex items-center justify-between px-6 md:px-12">
         <Link href="#hero" className="flex items-center">
-          <img src="/logo-black.svg" alt="Immersive View Logo" className="h-12 w-auto" />
+          <img
+            src={isScrolled ? "/logo-black.svg" : "/logo-white.svg"}
+            alt="Immersive View Logo"
+            className={`w-auto transition-all duration-300 ${isScrolled ? "h-12" : "h-16 md:h-20"
+              }`}
+          />
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-10 text-sm font-medium">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="text-neutral-600 hover:text-black transition">
+            <a
+              key={link.href}
+              href={link.href}
+              className={`transition ${isScrolled
+                ? "text-neutral-600 hover:text-black"
+                : "text-white/90 hover:text-white"
+                }`}
+            >
               {link.label}
             </a>
           ))}
           <a
             href="/#kontakt"
-            className="rounded-full border border-black px-5 py-2 hover:bg-black hover:text-white transition text-sm font-medium"
+            className={`rounded-full border px-5 py-2 transition text-sm font-medium ${isScrolled
+              ? "border-black text-black hover:bg-black hover:text-white"
+              : "border-white text-white hover:bg-white hover:text-black"
+              }`}
           >
             BERATUNG ANFRAGEN
           </a>
@@ -40,32 +72,36 @@ export default function Navbar() {
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Navigation öffnen"
         >
-          <span className={`h-0.5 w-7 bg-black transition ${open ? "rotate-45 translate-y-1.5" : ""}`} />
-          <span className={`h-0.5 w-7 bg-black transition ${open ? "-rotate-45 -translate-y-1.5" : ""}`} />
+          <span
+            className={`h-0.5 w-7 transition ${open || isScrolled ? "bg-black" : "bg-white"
+              } ${open ? "rotate-45 translate-y-1.5" : ""}`}
+          />
+          <span
+            className={`h-0.5 w-7 transition ${open || isScrolled ? "bg-black" : "bg-white"
+              } ${open ? "-rotate-45 -translate-y-1.5" : ""}`}
+          />
         </button>
       </div>
 
       {open && (
-        <div className="lg:hidden fixed top-[72px] left-0 w-full bg-white shadow-xl border-t border-neutral-200 z-40">
-          <nav className="flex flex-col px-6 py-6 gap-6 text-lg font-medium">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="text-neutral-800 py-2"
-              >
-                {link.label}
-              </a>
-            ))}
+        <div className="lg:hidden fixed top-0 left-0 w-full h-screen bg-white z-40 flex flex-col items-center justify-center gap-8">
+          {navLinks.map((link) => (
             <a
-              href="/#kontakt"
+              key={link.href}
+              href={link.href}
               onClick={() => setOpen(false)}
-              className="text-neutral-800 border border-black rounded-full px-5 py-3 text-center font-medium"
+              className="text-2xl font-medium text-neutral-800"
             >
-              BERATUNG ANFRAGEN
+              {link.label}
             </a>
-          </nav>
+          ))}
+          <a
+            href="/#kontakt"
+            onClick={() => setOpen(false)}
+            className="text-xl font-medium text-neutral-800 border border-black rounded-full px-8 py-3"
+          >
+            BERATUNG ANFRAGEN
+          </a>
         </div>
       )}
     </nav>

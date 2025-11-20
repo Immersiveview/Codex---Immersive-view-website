@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +23,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Force "scrolled" state (white bg) if not on home page
+  const showWhiteBg = isScrolled || !isHome;
+
   const navLinks = [
     { href: "/#leistungen", label: "LEISTUNGEN" },
     { href: "/#beispiele", label: "BEISPIELE" },
@@ -28,15 +34,15 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-sm py-2" : "bg-transparent py-6"
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${showWhiteBg ? "bg-white shadow-sm py-2" : "bg-transparent py-6"
         }`}
     >
       <div className="w-full flex items-center justify-between px-6 md:px-12">
-        <Link href="#hero" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <img
-            src={isScrolled ? "/logo-black.svg" : "/logo-white.svg"}
+            src={showWhiteBg ? "/logo-black.svg" : "/logo-white.svg"}
             alt="Immersive View Logo"
-            className={`w-auto transition-all duration-300 ${isScrolled ? "h-12" : "h-16 md:h-20"
+            className={`w-auto transition-all duration-300 ${showWhiteBg ? "h-12" : "h-16 md:h-20"
               }`}
           />
         </Link>
@@ -47,9 +53,9 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className={`transition ${isScrolled
-                ? "text-neutral-600 hover:text-black"
-                : "text-white/90 hover:text-white"
+              className={`transition ${showWhiteBg
+                  ? "text-neutral-600 hover:text-black"
+                  : "text-white/90 hover:text-white"
                 }`}
             >
               {link.label}
@@ -57,9 +63,9 @@ export default function Navbar() {
           ))}
           <a
             href="/#kontakt"
-            className={`rounded-full border px-5 py-2 transition text-sm font-medium ${isScrolled
-              ? "border-black text-black hover:bg-black hover:text-white"
-              : "border-white text-white hover:bg-white hover:text-black"
+            className={`rounded-full border px-5 py-2 transition text-sm font-medium ${showWhiteBg
+                ? "border-black text-black hover:bg-black hover:text-white"
+                : "border-white text-white hover:bg-white hover:text-black"
               }`}
           >
             BERATUNG ANFRAGEN
@@ -73,11 +79,11 @@ export default function Navbar() {
           aria-label="Navigation öffnen"
         >
           <span
-            className={`h-0.5 w-7 transition ${open || isScrolled ? "bg-black" : "bg-white"
+            className={`h-0.5 w-7 transition ${open || showWhiteBg ? "bg-black" : "bg-white"
               } ${open ? "rotate-45 translate-y-1.5" : ""}`}
           />
           <span
-            className={`h-0.5 w-7 transition ${open || isScrolled ? "bg-black" : "bg-white"
+            className={`h-0.5 w-7 transition ${open || showWhiteBg ? "bg-black" : "bg-white"
               } ${open ? "-rotate-45 -translate-y-1.5" : ""}`}
           />
         </button>

@@ -43,14 +43,12 @@ export default function KuulaEmbed() {
             <iframe
               className="w-full h-[640px]"
               loading="lazy"
-
               frameBorder="0"
               allow="xr-spatial-tracking; gyroscope; accelerometer"
               allowFullScreen
               scrolling="no"
-              src="https://kuula.co/share/collection/7bpCv?logo=0&info=0&fs=1&vr=1&sd=1&initload=1&autoload=1&thumbs=0"
-              title="360° Virtuelle Tour"
-            />
+              src="https://kuula.co/share/collection/7bpCv?logo=1&info=0&fs=1&vr=1&initload=1&autoplay=1&hideintro=1&controls=0&thumbs=0"
+            ></iframe>
           </div>
         </div>
       </div>
